@@ -79,7 +79,7 @@ violations contains "SW_I14" if {
 violations contains "SW_I14_HISTORY" if {
   a := input.policy_target.value
   a.operation == "learn"
-  not a.history_digest
+  a.history_digest == ""
 }
 # I15: partial evidence or human/model perturbations cannot promote authority.
 violations contains "SW_I15_PARTIAL" if {
@@ -138,7 +138,7 @@ violations contains "SW_EVIDENCE_ORIGIN" if {
 violations contains "SW_EVIDENCE_TRACE" if {
   a := input.policy_target.value
   a.operation == "submit_evidence"
-  not a.trace_id
+  a.trace_id == ""
 }
 violations contains "SW_EVIDENCE_OWNER" if {
   a := input.policy_target.value
