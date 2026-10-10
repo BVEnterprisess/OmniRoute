@@ -9,6 +9,7 @@ import { sanitizeErrorMessage } from "@omniroute/open-sse/utils/errorSanitizatio
 import { runWithServerToolFence } from "./toolExecutionFence";
 import type { ExecutedToolResult, ToolCall, ExecutionContext } from "./toolLoopTypes";
 import { logger } from "../../../open-sse/utils/logger.ts";
+import { authorizeSamwiseTool } from "../../domain/governance/samwiseGate";
 
 const log = logger("SKILLS_INTERCEPTION");
 
@@ -115,6 +116,7 @@ export async function interceptToolCalls(
       try {
         const builtinHandlerName = resolveBuiltinHandlerName(call.name, context);
         if (builtinHandlerName) {
+          await authorizeSamwiseTool("builtin", builtinHandlerName, call.arguments, context.apiKeyId);
           log.info("skills.interception.builtin_tool_detected", {
             toolName: call.name,
             builtinHandler: builtinHandlerName,
@@ -523,6 +525,9 @@ export async function executeServerOwned(
       context.injectedCustomSkillNames?.includes(call.name);
 
     const executeFn = async (executionId: string): Promise<unknown> => {
+      if (isMemoryBuiltin || isOrdinaryBuiltin) {
+        await authorizeSamwiseTool("builtin", builtinHandlerName as string, call.arguments, context.apiKeyId);
+      }
       if (isMemoryBuiltin) {
         const handlerName = builtinHandlerName as keyof typeof memoryBuiltinHandlers;
         return memoryBuiltinHandlers[handlerName](call.arguments, {

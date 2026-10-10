@@ -1,0 +1,86 @@
+{
+  "canonical": "https://github.com/Samwise-x/core/blob/main/CONTEXT.md",
+  "policyVersion": "2026-10-10.1",
+  "invariants": [
+    {
+      "id": 1,
+      "enforcement": "runtime"
+    },
+    {
+      "id": 2,
+      "enforcement": "runtime+admission"
+    },
+    {
+      "id": 3,
+      "enforcement": "runtime"
+    },
+    {
+      "id": 4,
+      "enforcement": "runtime+deployment"
+    },
+    {
+      "id": 5,
+      "enforcement": "runtime+architecture"
+    },
+    {
+      "id": 6,
+      "enforcement": "runtime+deployment"
+    },
+    {
+      "id": 7,
+      "enforcement": "runtime+deployment"
+    },
+    {
+      "id": 8,
+      "enforcement": "runtime+deployment"
+    },
+    {
+      "id": 9,
+      "enforcement": "runtime+deployment"
+    },
+    {
+      "id": 10,
+      "enforcement": "runtime+architecture"
+    },
+    {
+      "id": 11,
+      "enforcement": "runtime+measurement"
+    },
+    {
+      "id": 12,
+      "enforcement": "build_and_deployment"
+    },
+    {
+      "id": 13,
+      "enforcement": "runtime+storage"
+    },
+    {
+      "id": 14,
+      "enforcement": "runtime+yantrikdb_replay"
+    },
+    {
+      "id": 15,
+      "enforcement": "runtime+admission"
+    },
+    {
+      "id": 16,
+      "enforcement": "runtime+architecture"
+    },
+    {
+      "id": 17,
+      "enforcement": "runtime+catalog"
+    }
+  ],
+  "controlledEntropy": [
+    {
+      "id": "CEI-1",
+      "name": "MONOCULTURE DECAY PENALTY",
+      "status": "unresolved"
+    },
+    {
+      "id": "CEI-2",
+      "name": "CONVERGENCE DETECTION AND PERTURBATION",
+      "status": "unresolved"
+    }
+  ]
+}

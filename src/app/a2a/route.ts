@@ -15,6 +15,7 @@ import { getTaskManager } from "@/lib/a2a/taskManager";
 import { logRoutingDecision } from "@/lib/a2a/routingLogger";
 import { createA2AStream, SSE_HEADERS } from "@/lib/a2a/streaming";
 import { A2A_SKILL_HANDLERS, executeA2ATaskWithState } from "@/lib/a2a/taskExecution";
+import { authorizeSamwiseTool } from "@/domain/governance/samwiseGate";
 import { getSettings } from "@/lib/db/settings";
 import { authenticateA2ARequest, resolveA2AOwner } from "@/lib/a2a/authenticate";
 
@@ -211,6 +212,11 @@ export async function POST(req: NextRequest) {
         return jsonRpcError(id, -32601, `Unknown skill: ${skill}`);
       }
 
+      try {
+        await authorizeSamwiseTool("a2a", skill, {message_count:messages.length}, callerOwner ?? "");
+      } catch {
+        return jsonRpcError(id, -32600, "SAMWISE governance denied");
+      }
       const task = tm.createTask({ skill, messages, metadata: params?.metadata }, callerOwner);
       try {
         tm.updateTask(task.id, "working");
@@ -277,6 +283,11 @@ export async function POST(req: NextRequest) {
         return jsonRpcError(id, -32601, `Unknown skill: ${skill}`);
       }
 
+      try {
+        await authorizeSamwiseTool("a2a", skill, {message_count:messages.length}, callerOwner ?? "");
+      } catch {
+        return jsonRpcError(id, -32600, "SAMWISE governance denied");
+      }
       const task = tm.createTask({ skill, messages, metadata: params?.metadata }, callerOwner);
       tm.updateTask(task.id, "working");
 

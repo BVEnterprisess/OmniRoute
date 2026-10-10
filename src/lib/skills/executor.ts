@@ -10,6 +10,7 @@ import { getDbInstance } from "../db/core";
 import { getSettings } from "../db/settings";
 import { randomUUID } from "crypto";
 import { logger } from "../../../open-sse/utils/logger.ts";
+import { authorizeSamwiseTool } from "../../domain/governance/samwiseGate";
 
 const log = logger("SKILLS_EXECUTOR");
 
@@ -332,6 +333,7 @@ class SkillExecutor {
     let status = SkillStatus.SUCCESS;
 
     try {
+      await authorizeSamwiseTool("skill", skillName, input, context.apiKeyId);
       const result = await this.executeWithTimeout(
         handler(input, { apiKeyId: context.apiKeyId, sessionId: context.sessionId || "" })
       );
