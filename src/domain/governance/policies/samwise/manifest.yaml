@@ -1,0 +1,22 @@
+agent_control_specification_version: "0.4.0-alpha.1"
+metadata:
+  name: samwise-canonical-invariants
+  version: "2026-10-10.1"
+extends: []
+policies:
+  samwise_canonical:
+    type: rego
+    bundle: ./policy
+    query: data.samwise.governance.verdict
+intervention_points:
+  pre_tool_call:
+    policy_target: $.tool_call.args
+    policy_target_kind: tool_args
+    tool_name_from: $.tool_call.name
+    policy:
+      id: samwise_canonical
+tools:
+  samwise_action:
+    type: Tool
+    id: samwise_action
+    clearance: internal
